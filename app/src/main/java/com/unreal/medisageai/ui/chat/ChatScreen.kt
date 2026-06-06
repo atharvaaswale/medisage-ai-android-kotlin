@@ -43,6 +43,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -173,7 +177,7 @@ private fun MessageBubble(
                 )
             } else {
                 Text(
-                    text = message.text,
+                    text = parseMarkdown(message.text),
                     color = textColor,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
@@ -223,6 +227,27 @@ private fun ChatInputBar(
                     imageVector = Icons.AutoMirrored.Filled.Send,
                     contentDescription = "Send message",
                 )
+            }
+        }
+    }
+}
+
+fun parseMarkdown(text: String): AnnotatedString {
+    return buildAnnotatedString {
+        // Clean up weird double bullet rendering occurrences like "* **What..."
+        val sanitizedText = text.replace(Regex("\\*\\s+\\*\\*"), "**")
+            .replace(Regex("^\\*\\s+"), "• ") // Convert raw asterisks at starts of lines to clean bullets
+
+        val parts = sanitizedText.split("**")
+        for (i in parts.indices) {
+            if (i % 2 == 1) {
+                // Odd indexes are trapped between '**' markers -> Apply Bold
+                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                append(parts[i])
+                pop()
+            } else {
+                // Even indexes are standard prose
+                append(parts[i])
             }
         }
     }

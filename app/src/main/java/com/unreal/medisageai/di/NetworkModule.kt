@@ -30,7 +30,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideGenerativeModel(): GenerativeModel = GenerativeModel(
-        modelName = "gemini-1.5-flash",
+        modelName = "gemini-2.5-flash",
         apiKey = BuildConfig.GEMINI_API_KEY,
         systemInstruction = content { text(MEDICAL_SYSTEM_INSTRUCTION.trimIndent()) },
     )
