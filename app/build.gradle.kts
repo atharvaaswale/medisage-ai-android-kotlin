@@ -51,6 +51,12 @@ android {
         compose = true
         buildConfig = true
     }
+    externalNativeBuild {
+        cmake {
+            path = file("app/src/main/cpp/CMakeLists.txt")//("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
 }
 
 kotlin {
