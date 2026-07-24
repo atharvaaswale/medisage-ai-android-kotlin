@@ -1,14 +1,17 @@
 package com.unreal.medisageai.di
 
+import android.content.Context
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.unreal.medisageai.BuildConfig
 import com.unreal.medisageai.data.MediSageRepository
 import com.unreal.medisageai.data.MediSageRepositoryImpl
+import com.unreal.medisageai.rag.RagEngine
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -34,6 +37,10 @@ object NetworkModule {
         apiKey = BuildConfig.GEMINI_API_KEY,
         systemInstruction = content { text(MEDICAL_SYSTEM_INSTRUCTION.trimIndent()) },
     )
+
+    @Provides
+    @Singleton
+    fun provideRagEngine(@ApplicationContext context: Context): RagEngine = RagEngine(context)
 }
 
 @Module

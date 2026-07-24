@@ -1,20 +1,14 @@
 cmake_minimum_required(VERSION 3.18.1)
 project(native-rag-engine)
 
-# 1. Define paths
-set(LIB_DIR ${CMAKE_SOURCE_DIR}/lib)
+add_library(native-lib SHARED
+        native-lib.cpp
+        index_reader.cpp
+)
 
-# 2. Add FAISS and required system dependencies
-add_library(faiss STATIC IMPORTED)
-set_target_properties(faiss PROPERTIES IMPORTED_LOCATION ${LIB_DIR}/libfaiss.a)
+target_include_directories(native-lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-# 3. Build native library
-add_library(native-lib SHARED native-lib.cpp)
-
-# 4. Link dependencies
-# Note: FAISS often depends on BLAS/LAPACK; ensure those are also linked if not bundled in libfaiss.a
 target_link_libraries(native-lib
-        faiss
         log
         android
 )

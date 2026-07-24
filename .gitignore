@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# RAG generated assets (regenerate via app/src/main/python/convert_data.py)
+app/src/main/assets/vectors.bin
+app/src/main/assets/metadata.json
+app/src/main/assets/vectors.hdr
+app/src/main/assets/embed_model/

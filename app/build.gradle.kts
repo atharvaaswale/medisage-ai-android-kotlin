@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.google.generativeai)
+    implementation(libs.onnx.runtime)
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
